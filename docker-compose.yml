@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   trading-api:
     build: ./services/trading_api
