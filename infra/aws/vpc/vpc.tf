@@ -6,3 +6,11 @@ resource "aws_vpc" "cnrp_vpc" {
     Name = "cnrp-vpc"
   }
 }
+
+resource "aws_internet_gateway" "cnrp_igw" {
+  vpc_id = aws_vpc.cnrp_vpc.id
+
+  tags = {
+    Name = "cnrp-igw"
+  }
+}
