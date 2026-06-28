@@ -4,9 +4,22 @@
 
 ## Overview
 
-Cloud Native SRE Platform demonstrating production-ready Site Reliability Engineering practices using FastAPI, Docker, Kubernetes, AWS, Prometheus, Grafana, Loki, Jaeger, Terraform and GitHub Actions.
+Cloud Native SRE Platform is a production-inspired Site Reliability Engineering project demonstrating observability, Kubernetes, AWS infrastructure, Infrastructure as Code, CI/CD, and incident troubleshooting using modern cloud-native technologies.
 
 ---
+## SRE Concepts Demonstrated
+
+- Health Checks
+- Metrics
+- Structured Logging
+- Distributed Tracing
+- Infrastructure as Code
+- Kubernetes Deployments
+- Auto Scaling
+- Incident Documentation
+- Runbooks
+- CI/CD
+
 
 ## Architecture
 
@@ -88,20 +101,19 @@ scripts/
 
 ---
 
-## Roadmap
+## Current Status
 
-* [x] FastAPI
-* [x] Docker
-* [x] Prometheus
-* [x] Grafana
-* [ ] Loki
-* [ ] Jaeger
-* [x] Kubernetes Manifests
-* [ ] AWS EKS
-* [ ] Terraform
-* [ ] GitHub Actions
-* [ ] Chaos Engineering
-* [ ] AI Incident Analyzer
+✅ FastAPI
+✅ Docker
+✅ Prometheus
+✅ Grafana
+✅ Loki
+✅ Kubernetes
+✅ Terraform
+✅ AWS Infrastructure
+🚧 EKS Deployment
+🚧 GitHub Actions Deployment
+🚧 AI Incident Analysis
 
 ---
 
@@ -127,6 +139,13 @@ scripts/
 * Multi-region Deployment
 
 ---
+## What I Learned
+* Building cloud-native applications
+* Kubernetes troubleshooting
+* Infrastructure as Code with Terraform
+* Observability using Prometheus, Grafana, Loki, and Jaeger
+* CI/CD automation
+* Incident management and reliability engineering
 
 ## Author
 

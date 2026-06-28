@@ -8,3 +8,5 @@ infra/aws/.terraform/
 *.tfstate.*
 crash.log
 .terraform/
+tfplan
+*.tfplan
