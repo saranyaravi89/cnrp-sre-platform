@@ -1,22 +1,14 @@
 resource "aws_eks_cluster" "cnrp_cluster" {
   name     = "cnrp-cluster"
-  role_arn = aws_iam_role.eks_cluster_role.arn
+  role_arn = var.cluster_role_arn
   version  = "1.29"
 
   vpc_config {
-    subnet_ids = [
-      aws_subnet.public_subnet_1.id,
-      aws_subnet.private_subnet_1.id
-    ]
+    subnet_ids = var.subnet_ids
 
-    security_group_ids = [
-      aws_security_group.eks_cluster_sg.id
-    ]
+    security_group_ids = [var.cluster_sg_id]
   }
 
-  depends_on = [
-    aws_iam_role_policy_attachment.eks_cluster_policy
-  ]
 
   tags = {
     Name = "cnrp-cluster"
