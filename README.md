@@ -103,17 +103,15 @@ scripts/
 
 ## Current Status
 
-✅ FastAPI
-✅ Docker
-✅ Prometheus
-✅ Grafana
-✅ Loki
-✅ Kubernetes
-✅ Terraform
-✅ AWS Infrastructure
-🚧 EKS Deployment
-🚧 GitHub Actions Deployment
-🚧 AI Incident Analysis
+✅ FastAPI service structure  
+✅ Initial API setup  
+✅ Docker setup in progress  
+✅ Observability design in progress  
+✅ Terraform/EKS structure created  
+🚧 Kubernetes deployment in progress  
+🚧 GitHub Actions CI/CD in progress  
+🚧 Prometheus/Grafana/Loki/Jaeger integration in progress  
+🚧 Incident runbooks and troubleshooting labs planned  
 
 ---
 
