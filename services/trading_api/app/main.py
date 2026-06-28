@@ -2,11 +2,17 @@ from fastapi import FastAPI, Request
 from app.api.health import router as health_router
 from app.api.orders import router as orders_router
 from app.observability.metrics import router as metrics_router, REQUEST_COUNT
+from app.core.logging import get_logger
+
+logger = get_logger()
 
 app = FastAPI()
 
+logger.info("Trading API started")
+
 @app.middleware("http")
 async def count_requests(request: Request, call_next):
+    logger.info(f"{request.method} {request.url.path}")
     REQUEST_COUNT.inc()
     response = await call_next(request)
     return response

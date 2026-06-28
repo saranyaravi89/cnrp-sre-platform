@@ -1,17 +1,44 @@
 services:
   trading-api:
     build: ./services/trading_api
+    container_name: trading-api
     ports:
       - "8000:8000"
+    volumes:
+      - ./logs:/app/app/logs
 
   prometheus:
-    image: prom/prometheus
-    volumes:
-      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    image: prom/prometheus:latest
+    container_name: prometheus
     ports:
       - "9090:9090"
+    volumes:
+      - ./observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
 
   grafana:
-    image: grafana/grafana
+    image: grafana/grafana:latest
+    container_name: grafana
     ports:
       - "3000:3000"
+    depends_on:
+      - prometheus
+      - loki
+
+  loki:
+    image: grafana/loki:2.9.8
+    container_name: loki
+    command: -config.file=/etc/loki/loki-config.yml
+    ports:
+      - "3100:3100"
+    volumes:
+      - ./observability/loki/loki-config.yml:/etc/loki/loki-config.yml
+
+  promtail:
+    image: grafana/promtail:2.9.8
+    container_name: promtail
+    command: -config.file=/etc/promtail/promtail-config.yml
+    volumes:
+      - ./observability/loki/promtail-config.yml:/etc/promtail/promtail-config.yml
+      - ./logs:/logs
+    depends_on:
+      - loki
