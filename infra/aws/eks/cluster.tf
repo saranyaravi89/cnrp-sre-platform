@@ -1,7 +1,7 @@
 resource "aws_eks_cluster" "cnrp_cluster" {
   name     = "cnrp-cluster"
   role_arn = var.cluster_role_arn
-  version  = "1.29"
+  version = "1.32"
 
   vpc_config {
     subnet_ids = var.subnet_ids
