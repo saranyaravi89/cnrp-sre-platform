@@ -1,0 +1,21 @@
+groups:
+  - name: trading-api-alerts
+
+    rules:
+      - alert: TradingAPIDown
+        expr: up{job="trading-api"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: Trading API is down
+          description: Trading API has not responded for 1 minute.
+
+      - alert: HighCPUUsage
+        expr: rate(process_cpu_seconds_total[5m]) > 0.8
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: High CPU usage
+          description: CPU usage has exceeded 80%.
