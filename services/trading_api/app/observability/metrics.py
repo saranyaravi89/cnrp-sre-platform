@@ -5,7 +5,8 @@ router = APIRouter()
 
 REQUEST_COUNT = Counter(
     "app_requests_total",
-    "Total API requests"
+    "Total API requests",
+    ["method", "path", "status"]
 )
 
 ORDER_CREATED = Counter(

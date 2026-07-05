@@ -14,10 +14,15 @@ logger.info("Trading API started")
 @app.middleware("http")
 async def count_requests(request: Request, call_next):
     logger.info(f"{request.method} {request.url.path}")
-    REQUEST_COUNT.inc()
 
     with REQUEST_LATENCY.time():
         response = await call_next(request)
+
+    REQUEST_COUNT.labels(
+        method=request.method,
+        path=request.url.path,
+        status=str(response.status_code)
+    ).inc()
 
     return response
 
