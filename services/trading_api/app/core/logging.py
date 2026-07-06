@@ -2,6 +2,7 @@ import logging
 from pythonjsonlogger import jsonlogger
 from pathlib import Path
 
+
 def get_logger():
     logger = logging.getLogger("trading-api")
     logger.setLevel(logging.INFO)

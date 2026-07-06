@@ -11,6 +11,7 @@ app = FastAPI()
 
 logger.info("Trading API started")
 
+
 @app.middleware("http")
 async def count_requests(request: Request, call_next):
     logger.info(f"{request.method} {request.url.path}")

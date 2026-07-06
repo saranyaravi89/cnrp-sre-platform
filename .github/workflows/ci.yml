@@ -4,24 +4,53 @@ on:
   push:
     branches:
       - main
+  pull_request:
 
 jobs:
-  build:
-
+  ci:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: |
           pip install -r services/trading_api/requirements.txt
 
-      - name: Build Docker Image
+      - name: Run tests
+        env:
+          PYTHONPATH: services/trading_api
+        run: pytest
+
+      - name: Run lint
+        working-directory: services/trading_api
+        run: |
+          flake8 app tests --max-line-length=120
+
+      - name: Build Docker image
         run: |
           docker build -t trading-api ./services/trading_api
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform fmt
+        working-directory: infra/aws
+        run: |
+          terraform fmt -check -recursive
+
+      - name: Terraform init
+        working-directory: infra/aws
+        run: |
+          terraform init -backend=false
+
+      - name: Terraform validate
+        working-directory: infra/aws
+        run: |
+          terraform validate

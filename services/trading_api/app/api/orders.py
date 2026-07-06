@@ -6,6 +6,7 @@ router = APIRouter()
 
 active_orders = 0
 
+
 @router.get("/orders")
 def get_orders():
     return {
@@ -14,6 +15,7 @@ def get_orders():
             {"id": 2, "symbol": "MSFT", "side": "SELL", "status": "FILLED"}
         ]
     }
+
 
 @router.post("/orders")
 def create_order():
@@ -40,6 +42,7 @@ def create_order():
         "side": side,
         "quantity": quantity
     }
+
 
 @router.post("/orders/cancel")
 def cancel_order():

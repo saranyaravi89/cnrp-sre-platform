@@ -4,6 +4,7 @@ from app.observability.metrics import TRADE_EXECUTED
 
 router = APIRouter()
 
+
 @router.get("/trades")
 def get_trades():
     return {
@@ -12,6 +13,7 @@ def get_trades():
             {"id": 2, "symbol": "NVDA", "price": 880.2, "quantity": 5}
         ]
     }
+
 
 @router.post("/trades/execute")
 def execute_trade():

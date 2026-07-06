@@ -39,6 +39,7 @@ ACTIVE_ORDERS = Gauge(
     "Current active orders"
 )
 
+
 @router.get("/metrics")
 def metrics():
     return Response(generate_latest(), media_type=CONTENT_TYPE_LATEST)

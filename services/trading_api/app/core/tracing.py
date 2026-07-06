@@ -4,6 +4,7 @@ from opentelemetry.sdk.resources import Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor
 
+
 def setup_tracing():
     provider = TracerProvider(
         resource=Resource.create({"service.name": "trading-api"})
