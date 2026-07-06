@@ -1,0 +1,13 @@
+replicaCount: 3
+
+image:
+  tag: latest
+
+service:
+  type: LoadBalancer
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 6
+  cpuUtilization: 60

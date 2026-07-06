@@ -2,8 +2,10 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: trading-api
+  labels:
+    app: trading-api
 spec:
-  replicas: 2
+  replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
       app: trading-api
@@ -19,25 +21,29 @@ spec:
     spec:
       containers:
         - name: trading-api
-          image: 985411011517.dkr.ecr.ap-southeast-1.amazonaws.com/cnrp-trading-api:latest
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - containerPort: 8000
+            - containerPort: {{ .Values.container.port }}
+          env:
+            - name: LOG_DIR
+              value: "{{ .Values.env.logDir }}"
           resources:
             requests:
-              cpu: "100m"
-              memory: "128Mi"
+              cpu: "{{ .Values.resources.requests.cpu }}"
+              memory: "{{ .Values.resources.requests.memory }}"
             limits:
-              cpu: "500m"
-              memory: "256Mi"
+              cpu: "{{ .Values.resources.limits.cpu }}"
+              memory: "{{ .Values.resources.limits.memory }}"
           livenessProbe:
             httpGet:
               path: /health
-              port: 8000
+              port: {{ .Values.container.port }}
             initialDelaySeconds: 10
             periodSeconds: 10
           readinessProbe:
             httpGet:
               path: /health
-              port: 8000
+              port: {{ .Values.container.port }}
             initialDelaySeconds: 5
             periodSeconds: 5

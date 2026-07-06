@@ -5,6 +5,9 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+container:
+  port: 8000
+
 service:
   type: LoadBalancer
   port: 80
@@ -17,3 +20,15 @@ resources:
   limits:
     cpu: 500m
     memory: 256Mi
+
+env:
+  logDir: /app/app/logs
+
+hpa:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 5
+  cpuUtilization: 60
+
+ingress:
+  enabled: false

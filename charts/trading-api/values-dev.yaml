@@ -1,0 +1,10 @@
+replicaCount: 1
+
+image:
+  tag: dev
+
+service:
+  type: ClusterIP
+
+hpa:
+  enabled: false
