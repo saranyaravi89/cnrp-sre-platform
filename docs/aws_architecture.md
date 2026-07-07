@@ -1,142 +1,255 @@
-# AWS Architecture
+# AWS Infrastructure Architecture
 
-## Purpose
+## Overview
 
-This document explains the AWS architecture designed for the Cloud Native SRE Platform.
+The CNRP SRE Platform is deployed on Amazon Web Services (AWS) using Terraform as Infrastructure as Code (IaC).
 
-## AWS Architecture Diagram
+The infrastructure provides a secure, scalable, and production-inspired environment for running a cloud-native Trading API on Amazon Elastic Kubernetes Service (EKS).
 
-```text
-AWS Region: ap-southeast-1
-|
-+--------------------------------------------------+
-| VPC: cnrp-vpc                                    |
-| CIDR: 10.0.0.0/16                                |
-|                                                  |
-|  +----------------------+    +----------------+  |
-|  | Public Subnet         |    | Private Subnet |  |
-|  | 10.0.1.0/24           |    | 10.0.2.0/24    |  |
-|  |                      |    |                |  |
-|  | Internet Gateway     |    | EKS Nodes      |  |
-|  | NAT Gateway          |--->| Trading API    |  |
-|  +----------------------+    +----------------+  |
-|                                                  |
-|  +--------------------------------------------+  |
-|  | EKS Cluster                                |  |
-|  | - Managed Node Group                       |  |
-|  | - Kubernetes Workloads                     |  |
-|  | - HPA                                      |  |
-|  +--------------------------------------------+  |
-|                                                  |
-|  +--------------------------------------------+  |
-|  | IAM Roles                                  |  |
-|  | - EKS Cluster Role                         |  |
-|  | - EKS Node Role                            |  |
-|  +--------------------------------------------+  |
-+--------------------------------------------------+
+---
+
+# Architecture
+
+```
+                         AWS Cloud
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                                                                              │
+│                              Amazon VPC                                     │
+│                                                                              │
+│  ┌──────────────────────────────┐   ┌──────────────────────────────┐         │
+│  │      Public Subnet A         │   │      Public Subnet B         │         │
+│  │                              │   │                              │         │
+│  │ Internet Gateway             │   │ Load Balancer                │         │
+│  └──────────────────────────────┘   └──────────────────────────────┘         │
+│                                                                              │
+│  ┌──────────────────────────────┐   ┌──────────────────────────────┐         │
+│  │     Private Subnet A         │   │     Private Subnet B         │         │
+│  │                              │   │                              │         │
+│  │ Amazon EKS Worker Nodes      │   │ Amazon RDS PostgreSQL        │         │
+│  │ Trading API Pods             │   │                              │         │
+│  └──────────────────────────────┘   └──────────────────────────────┘         │
+│                                                                              │
+│                Amazon ECR (Container Images)                                │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## AWS Services Used
+---
 
-### VPC
+# Infrastructure Components
 
-A custom VPC is created to isolate project resources.
+## Amazon VPC
 
-```text
-CIDR: 10.0.0.0/16
+A custom Virtual Private Cloud (VPC) provides network isolation for all infrastructure resources.
+
+Responsibilities:
+
+- Network segmentation
+- Routing
+- Security boundaries
+
+---
+
+## Public Subnets
+
+Public subnets host internet-facing resources such as:
+
+- Internet Gateway
+- Kubernetes LoadBalancer Service
+
+Public resources receive external traffic.
+
+---
+
+## Private Subnets
+
+Private subnets host application workloads.
+
+Resources include:
+
+- Amazon EKS worker nodes
+- Trading API containers
+- Amazon RDS PostgreSQL
+
+Application workloads are isolated from direct internet access.
+
+---
+
+## Internet Gateway
+
+Provides outbound internet connectivity for public resources.
+
+Used by:
+
+- Kubernetes LoadBalancer
+- Public AWS endpoints
+
+---
+
+## Security Groups
+
+Security Groups control inbound and outbound traffic.
+
+Configured for:
+
+- EKS Cluster
+- Worker Nodes
+- RDS PostgreSQL
+- Load Balancer
+
+Only required ports are exposed.
+
+---
+
+## Amazon Elastic Kubernetes Service (EKS)
+
+Amazon EKS hosts the Trading API.
+
+Kubernetes resources include:
+
+- Deployment
+- Service
+- Horizontal Pod Autoscaler
+
+The cluster provides:
+
+- High availability
+- Container orchestration
+- Rolling updates
+- Auto healing
+
+---
+
+## Amazon Elastic Container Registry (ECR)
+
+Docker images are stored in Amazon ECR.
+
+GitHub Actions builds the application image and pushes it to ECR before deployment.
+
+---
+
+## Amazon RDS PostgreSQL
+
+Amazon RDS provides managed PostgreSQL.
+
+Purpose:
+
+- Persistent relational storage
+- Managed backups
+- Automated maintenance
+- High reliability
+
+(Current implementation provisions the database infrastructure. Application integration can be extended in future iterations.)
+
+---
+
+# Deployment Flow
+
+```
+Developer
+      │
+GitHub Push
+      │
+GitHub Actions
+      │
+Docker Build
+      │
+Amazon ECR
+      │
+Helm Deployment
+      │
+Amazon EKS
+      │
+Trading API
 ```
 
-### Public Subnet
+---
 
-Used for internet-facing resources such as NAT Gateway or Load Balancer.
+# Terraform Modules
 
-```text
-10.0.1.0/24
+Infrastructure is organized into reusable Terraform modules.
+
+Current modules include:
+
 ```
-
-### Private Subnet
-
-Used for EKS worker nodes and internal workloads.
-
-```text
-10.0.2.0/24
-```
-
-### Internet Gateway
-
-Allows public subnet resources to access the internet.
-
-### NAT Gateway
-
-Allows private subnet resources to access the internet without exposing them publicly.
-
-### Route Tables
-
-Public route table sends internet traffic through Internet Gateway.
-
-Private route table sends outbound traffic through NAT Gateway.
-
-### EKS
-
-Amazon EKS is used to run Kubernetes workloads.
-
-### IAM
-
-IAM roles are created for:
-
-```text
-EKS control plane
-EKS worker nodes
-ECR access
-CNI networking
-```
-
-## Terraform Modules
-
-```text
 infra/aws/
-├── main.tf
-├── provider.tf
-├── backend.tf
+
+├── ecr/
+├── eks/
+├── rds/
 ├── vpc/
 ├── iam/
-└── eks/
+└── main.tf
 ```
 
-## Cost Awareness
+Each module is responsible for provisioning a specific AWS service.
 
-Main AWS cost drivers:
+---
 
-```text
-EKS control plane
-NAT Gateway
-EC2 worker nodes
-Load Balancer
-```
+# Security Design
 
-Infrastructure should be destroyed when not in use.
+Security considerations include:
 
-```bash
-terraform destroy
-```
+- Custom VPC
+- Private application subnets
+- Security Groups
+- IAM Roles for EKS
+- Infrastructure managed through Terraform
+- No hard-coded AWS credentials
 
-## Deployment Flow
+---
 
-```text
-Terraform
-   |
-   v
-Create AWS VPC + IAM + EKS
-   |
-   v
-Build Docker Image
-   |
-   v
-Push Image to ECR
-   |
-   v
-Deploy App to EKS
-   |
-   v
-Expose Service via Load Balancer
-```
+# Scalability
+
+The infrastructure supports horizontal scaling through:
+
+- Kubernetes Deployments
+- Horizontal Pod Autoscaler
+- Amazon EKS
+- LoadBalancer Service
+
+Application containers remain stateless, enabling additional replicas without application changes.
+
+---
+
+# Cost Optimization
+
+The project uses lightweight AWS resources where possible:
+
+- t3.micro instances
+- Small PostgreSQL instance
+- Infrastructure destroyed after validation
+- Terraform used to avoid configuration drift
+
+---
+
+# Infrastructure Validation
+
+Infrastructure was validated by provisioning and verifying:
+
+- Amazon VPC
+- Public and Private Subnets
+- Internet Gateway
+- Security Groups
+- Amazon EKS Cluster
+- Amazon ECR Repository
+- Amazon RDS PostgreSQL
+- Kubernetes LoadBalancer
+- Terraform Apply
+- Terraform Destroy
+
+---
+
+# Lessons Learned
+
+During implementation, several real-world operational challenges were encountered and resolved:
+
+- AWS subnet dependency violations during Terraform destroy
+- Kubernetes LoadBalancer cleanup
+- ECR repository deletion constraints
+- Terraform state management
+- AWS networking dependencies
+- Security group cleanup
+- Kubernetes deployment validation
+
+These troubleshooting activities provided practical experience with AWS infrastructure lifecycle management.
