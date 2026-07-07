@@ -1,97 +1,276 @@
-# Architecture Overview
+# System Architecture
 
-## Purpose
+## Overview
 
-This project demonstrates a cloud-native SRE platform for a Trading API. It includes application development, observability, containerization, Kubernetes deployment, AWS infrastructure, CI/CD, and troubleshooting practices.
+The CNRP SRE Platform demonstrates a cloud-native application deployed using modern DevOps and Site Reliability Engineering (SRE) practices.
 
-## High-Level Architecture
+The platform provisions AWS infrastructure using Terraform, deploys a FastAPI-based Trading API to Amazon EKS, and provides complete observability through Prometheus, Grafana, Loki, Jaeger, and Blackbox Exporter.
 
-```text
-User / Client
-     |
-     v
-FastAPI Trading API
-     |
-     |-- /health   -> Health check
-     |-- /orders   -> Sample business endpoint
-     |-- /metrics  -> Prometheus metrics
-     |
-     v
-Docker Container
-     |
-     v
-Docker Compose / Kubernetes
-     |
-     +--------------------+
-     | Observability      |
-     |                    |
-     | Prometheus Metrics |
-     | Grafana Dashboard  |
-     | Loki Logs          |
-     | Jaeger Traces      |
-     +--------------------+
+---
+
+# High-Level Architecture
+
+```
+                          Developer
+                              │
+                        Git Push
+                              │
+                     GitHub Repository
+                              │
+                    GitHub Actions CI/CD
+                              │
+                 Build • Test • Docker Build
+                              │
+                      Push Image to ECR
+                              │
+                      Amazon Elastic
+                    Container Registry
+                              │
+                              ▼
+                    Amazon EKS Cluster
+                              │
+                    Helm Deployment Chart
+                              │
+                     Trading API (FastAPI)
+                              │
+        ┌──────────────┬──────────────┬──────────────┐
+        │              │              │              │
+   Prometheus       Loki          Jaeger      Blackbox Exporter
+        │              │              │              │
+        └──────────────┴──────────────┴──────────────┘
+                              │
+                           Grafana
+                              │
+                      Dashboards & Metrics
+
+
+Infrastructure Provisioning
+
+Terraform
+    │
+    ▼
+AWS
+├── VPC
+├── Public Subnets
+├── Private Subnets
+├── Internet Gateway
+├── Route Tables
+├── Security Groups
+├── Amazon EKS
+├── Amazon ECR
+└── Amazon RDS PostgreSQL
 ```
 
-## Components
+---
 
-### FastAPI Trading API
+# Components
 
-The application exposes REST endpoints used to simulate a trading service.
+## Trading API
 
-Key endpoints:
+The Trading API is a FastAPI application that simulates order and trade processing.
 
-```text
-/health
-/orders
-/metrics
+Endpoints include:
+
+- Health endpoint
+- Orders endpoint
+- Trades endpoint
+- Prometheus metrics endpoint
+
+The application also provides:
+
+- Structured JSON logging
+- OpenTelemetry instrumentation
+- Prometheus metrics
+
+---
+
+## Infrastructure
+
+Infrastructure is provisioned using Terraform.
+
+Resources include:
+
+- Custom VPC
+- Public and Private Subnets
+- Internet Gateway
+- Route Tables
+- Security Groups
+- Amazon EKS Cluster
+- Amazon ECR Repository
+- Amazon RDS PostgreSQL
+
+Infrastructure follows Infrastructure as Code (IaC) principles and can be provisioned or destroyed using Terraform.
+
+---
+
+## Kubernetes
+
+The application is deployed to Amazon EKS using Helm.
+
+Resources include:
+
+- Deployment
+- Service
+- Horizontal Pod Autoscaler (HPA)
+
+Helm enables environment-specific configuration through configurable values files.
+
+---
+
+## CI/CD
+
+GitHub Actions automates the software delivery process.
+
+Pipeline stages include:
+
+- Source checkout
+- Dependency installation
+- Unit testing
+- Linting
+- Docker image build
+- Push image to Amazon ECR
+- Terraform validation
+
+Infrastructure deployment remains a manual approval step to avoid accidental provisioning.
+
+---
+
+## Observability
+
+The platform includes a complete observability stack.
+
+### Prometheus
+
+Responsible for collecting application and infrastructure metrics.
+
+Examples:
+
+- Request count
+- Request latency
+- Order metrics
+- CPU usage
+- Memory usage
+
+---
+
+### Grafana
+
+Grafana visualizes metrics collected by Prometheus.
+
+Current dashboards include:
+
+- API Overview
+- Application Performance
+
+---
+
+### Loki
+
+Centralized log aggregation.
+
+Application logs are collected and searchable from Grafana.
+
+---
+
+### Jaeger
+
+Distributed tracing for API requests.
+
+Used to visualize request flow and latency.
+
+---
+
+### Blackbox Exporter
+
+Performs external health checks against application endpoints.
+
+Used to verify endpoint availability independently of application metrics.
+
+---
+
+# Security
+
+The platform follows AWS security best practices.
+
+- Private networking where appropriate
+- Security Groups restrict access
+- Kubernetes workloads are isolated within the cluster
+- Infrastructure managed through Terraform
+
+---
+
+# Scalability
+
+The application supports horizontal scaling using:
+
+- Kubernetes Deployments
+- Horizontal Pod Autoscaler
+- LoadBalancer Service
+- Stateless application design
+
+---
+
+# Repository Layout
+
+```
+cnrp-sre-platform
+│
+├── services/
+│   └── trading_api/
+│
+├── infra/
+│   └── aws/
+│
+├── charts/
+│   └── trading-api/
+│
+├── observability/
+│   ├── grafana/
+│   ├── prometheus/
+│   ├── loki/
+│   ├── jaeger/
+│   └── blackbox/
+│
+├── docs/
+│
+├── chaos/
+│
+└── scripts/
 ```
 
-### Docker
+---
 
-The app is containerized using Docker so that it can run consistently across local and cloud environments.
+# Deployment Flow
 
-### Observability
+1. Developer pushes code to GitHub.
+2. GitHub Actions runs tests and validation.
+3. Docker image is built.
+4. Image is pushed to Amazon ECR.
+5. Terraform provisions AWS infrastructure (manual).
+6. Helm deploys the application to Amazon EKS.
+7. Prometheus collects metrics.
+8. Loki collects logs.
+9. Jaeger collects traces.
+10. Grafana visualizes operational data.
 
-The platform includes:
+---
 
-```text
-Prometheus -> metrics
-Grafana    -> dashboards
-Loki       -> logs
-Jaeger     -> traces
-```
+# Design Decisions
 
-### Kubernetes
+The following technologies were selected:
 
-Kubernetes manifests define deployment, service, ingress, and autoscaling behavior.
-
-### Terraform
-
-Terraform defines AWS infrastructure such as VPC, subnets, IAM roles, EKS, and networking.
-
-## Reliability Goals
-
-```text
-Health checks
-Metrics collection
-Structured logging
-Distributed tracing
-Autoscaling
-Troubleshooting scenarios
-Incident documentation
-```
-
-## Current Status
-
-```text
-FastAPI        : Implemented
-Docker         : Implemented
-Prometheus     : Implemented
-Grafana        : Implemented
-Loki           : Implemented
-Jaeger         : Implemented
-Kubernetes     : Configured
-Terraform AWS  : Configured
-EKS Deployment : Planned
-CI/CD          : Basic CI implemented
-```
+| Technology | Purpose |
+|------------|---------|
+| FastAPI | Lightweight REST API |
+| Docker | Containerization |
+| Kubernetes | Container orchestration |
+| Helm | Kubernetes package management |
+| Terraform | Infrastructure as Code |
+| AWS EKS | Managed Kubernetes |
+| Amazon ECR | Container registry |
+| Amazon RDS | Managed PostgreSQL |
+| Prometheus | Metrics collection |
+| Grafana | Dashboards |
+| Loki | Centralized logging |
+| Jaeger | Distributed tracing |
+| GitHub Actions | Continuous Integration |
