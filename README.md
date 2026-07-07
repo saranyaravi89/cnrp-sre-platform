@@ -2,7 +2,7 @@
 
 ![CI](https://github.com/saranyaravi89/cnrp-sre-platform/actions/workflows/ci.yml/badge.svg)
 
-# Overview
+# CNRP SRE Platform
 
 A cloud-native Site Reliability Engineering (SRE) platform demonstrating Infrastructure as Code, Kubernetes, CI/CD, observability, and cloud deployment using AWS.
 
@@ -179,7 +179,7 @@ cnrp-sre-platform/
 Clone repository
 
 ```bash
-git clone https://github.com/<your-username>/cnrp-sre-platform.git
+git clone https://github.com/saranyaravi89/cnrp-sre-platform.git
 ```
 
 Install dependencies
@@ -282,18 +282,41 @@ helm lint charts/trading-api
 
 # Screenshots
 
-Include screenshots for:
-
-- AWS VPC
 - Amazon EKS
+<img width="3195" height="1577" alt="AWS EKS Cluster" src="https://github.com/user-attachments/assets/afbf8ca4-761d-4da0-a771-2b15cd9cdc1a" />
+
 - Amazon RDS
+  <img width="1281" height="1215" alt="RDS_Instance" src="https://github.com/user-attachments/assets/f0f44c4a-7d08-46bf-be80-d57c2c5aa1fd" />
+
 - Amazon ECR
+  <img width="3187" height="1562" alt="ECR Repository" src="https://github.com/user-attachments/assets/9089c51e-8343-4bd8-aa54-fd2aa689ff8c" />
+
 - Kubernetes Pods
+  <img width="1945" height="360" alt="Kubernetes Pods" src="https://github.com/user-attachments/assets/9da278bc-72ea-4193-af5c-43f33ac560b5" />
+
 - Kubernetes Services
+  <img width="1957" height="360" alt="kubernetes-services" src="https://github.com/user-attachments/assets/5eef573e-0ed2-4b9d-b2b3-bf4105aef050" />
+
 - Grafana Dashboard
+  <img width="2947" height="1185" alt="API-Overview-Grafana-Dashboard" src="https://github.com/user-attachments/assets/fe94c748-a0d4-4fc1-84c2-d32572aff423" />
+  <img width="2945" height="750" alt="Application-Performance-Grafana-Dashboard" src="https://github.com/user-attachments/assets/6b124a52-ebda-4be2-9154-6bd52bc03f41" />
+
 - Prometheus Targets
+  <img width="3180" height="1590" alt="prometheus-targets" src="https://github.com/user-attachments/assets/91fee418-22fc-4fa9-af84-c940a0d0982d" />
+
 - GitHub Actions CI
+  <img width="3190" height="1587" alt="GitHub_Actions" src="https://github.com/user-attachments/assets/8904eb64-95c5-4069-8fcd-05717ce3695a" />
+
 - GitHub Actions Deploy
+  <img width="3185" height="1292" alt="Github Actions Deploy Workflow" src="https://github.com/user-attachments/assets/527c362a-e38f-4d2a-ab74-fb16ededbdfc" />
+
+- Jaeger Tracing
+  <img width="1281" height="1215" alt="Jaeger_tracing" src="https://github.com/user-attachments/assets/a5bab7ae-fb3a-4dd9-9026-6488737fdc94" />
+
+- LoadBalancer Health Response
+  <img width="2627" height="302" alt="LoadBalancerHealthResponse" src="https://github.com/user-attachments/assets/81eb2224-ac7a-4e3a-ae67-204735c156dd" />
+
+
 
 ---
 
@@ -334,4 +357,3 @@ During this project the following production issues were identified and resolved
 - Cloud-native application deployment
 - SRE operational troubleshooting
 
----
