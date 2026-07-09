@@ -10,33 +10,7 @@ The platform consists of a FastAPI-based Trading API running on Kubernetes with 
 
 # High-Level Design
 
-```
-                   Client
-                     │
-                     ▼
-             Kubernetes Service
-                     │
-                     ▼
-             FastAPI Trading API
-        ┌────────────┼─────────────┐
-        │            │             │
-        ▼            ▼             ▼
-   Orders API   Trades API    Health API
-        │            │             │
-        └────────────┼─────────────┘
-                     │
-             Business Logic
-                     │
-         ┌───────────┼────────────┐
-         │           │            │
-         ▼           ▼            ▼
-   Prometheus     Logging      Tracing
-     Metrics       (Loki)      (Jaeger)
-                     │
-                     ▼
-                 Grafana
-
-```
+<img width="1536" height="1024" alt="WhatsApp Image 2026-07-09 at 11 50 27 PM" src="https://github.com/user-attachments/assets/87bab74c-066a-4fda-b6b9-c81e0017ca1d" />
 
 ---
 
