@@ -11,55 +11,7 @@ The platform provisions AWS infrastructure using Terraform, deploys a FastAPI-ba
 # High-Level Architecture
 
 ```
-                          Developer
-                              │
-                        Git Push
-                              │
-                     GitHub Repository
-                              │
-                    GitHub Actions CI/CD
-                              │
-                 Build • Test • Docker Build
-                              │
-                      Push Image to ECR
-                              │
-                      Amazon Elastic
-                    Container Registry
-                              │
-                              ▼
-                    Amazon EKS Cluster
-                              │
-                    Helm Deployment Chart
-                              │
-                     Trading API (FastAPI)
-                              │
-        ┌──────────────┬──────────────┬──────────────┐
-        │              │              │              │
-   Prometheus       Loki          Jaeger      Blackbox Exporter
-        │              │              │              │
-        └──────────────┴──────────────┴──────────────┘
-                              │
-                           Grafana
-                              │
-                      Dashboards & Metrics
-
-
-Infrastructure Provisioning
-
-Terraform
-    │
-    ▼
-AWS
-├── VPC
-├── Public Subnets
-├── Private Subnets
-├── Internet Gateway
-├── Route Tables
-├── Security Groups
-├── Amazon EKS
-├── Amazon ECR
-└── Amazon RDS PostgreSQL
-```
+<img width="804" height="936" alt="WhatsApp Image 2026-07-09 at 11 23 59 PM" src="https://github.com/user-attachments/assets/722d9f53-16f7-4f8a-867f-4abefb43e4b6" />
 
 ---
 
