@@ -1,7 +1,3 @@
-variable "vpc_id" {}
-variable "private_subnet_ids" {}
-variable "app_sg_id" {}
-
 variable "db_password" {
   description = "RDS PostgreSQL password"
   type        = string
