@@ -10,11 +10,11 @@ The platform provisions AWS infrastructure using Terraform, deploys a FastAPI-ba
 
 # High-Level Architecture
 
-```
+
 <img width="802" height="927" alt="Architecture" src="https://github.com/user-attachments/assets/470110c6-0809-4404-acf5-fbb10b7ff22f" />
 
 
----
+
 
 # Components
 
