@@ -1,12 +1,26 @@
-.env
-logs/
-*.log
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
 
 # Terraform
+.terraform/
 infra/aws/.terraform/
 *.tfstate
 *.tfstate.*
 crash.log
-.terraform/
 tfplan
 *.tfplan
+
+# Logs
+logs/
+*.log
+
+# Python
+.venv/
+
+# Environment
+.env
+
+# VSCode
+.vscode/settings.json
