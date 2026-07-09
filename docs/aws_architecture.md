@@ -10,29 +10,8 @@ The infrastructure provides a secure, scalable, and production-inspired environm
 
 # Architecture
 
-```
-                         AWS Cloud
-┌──────────────────────────────────────────────────────────────────────────────┐
-│                                                                              │
-│                              Amazon VPC                                     │
-│                                                                              │
-│  ┌──────────────────────────────┐   ┌──────────────────────────────┐         │
-│  │      Public Subnet A         │   │      Public Subnet B         │         │
-│  │                              │   │                              │         │
-│  │ Internet Gateway             │   │ Load Balancer                │         │
-│  └──────────────────────────────┘   └──────────────────────────────┘         │
-│                                                                              │
-│  ┌──────────────────────────────┐   ┌──────────────────────────────┐         │
-│  │     Private Subnet A         │   │     Private Subnet B         │         │
-│  │                              │   │                              │         │
-│  │ Amazon EKS Worker Nodes      │   │ Amazon RDS PostgreSQL        │         │
-│  │ Trading API Pods             │   │                              │         │
-│  └──────────────────────────────┘   └──────────────────────────────┘         │
-│                                                                              │
-│                Amazon ECR (Container Images)                                │
-│                                                                              │
-└──────────────────────────────────────────────────────────────────────────────┘
-```
+<img width="1536" height="1024" alt="WhatsApp Image 2026-07-09 at 11 23 16 PM" src="https://github.com/user-attachments/assets/1a32b28b-0ae9-4b94-adf3-d132d4d55566" />
+
 
 ---
 
