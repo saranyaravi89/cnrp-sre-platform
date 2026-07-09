@@ -23,14 +23,33 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker build -t cnrp-trading-api ./services/trading_api
+          docker build \
+            -t cnrp-trading-api:${{ github.sha }} \
+            ./services/trading_api
 
       - name: Tag Docker Image
         run: |
-          docker tag cnrp-trading-api:latest \
-          ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-southeast-1.amazonaws.com/cnrp-trading-api:latest
+          docker tag \
+            cnrp-trading-api:${{ github.sha }} \
+            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-southeast-1.amazonaws.com/cnrp-trading-api:${{ github.sha }}
 
       - name: Push Docker Image
         run: |
           docker push \
-          ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-southeast-1.amazonaws.com/cnrp-trading-api:latest
+            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.ap-southeast-1.amazonaws.com/cnrp-trading-api:${{ github.sha }}     
+     
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig \
+            --region ap-southeast-1 \
+            --name cnrp-cluster
+
+      - name: Deploy with Helm
+        run: |
+          helm upgrade --install trading-api charts/trading-api \
+            -f charts/trading-api/values-prod.yaml \
+            --set image.tag=${{ github.sha }}
+
+      - name: Verify rollout
+        run: |
+          kubectl rollout status deployment/trading-api
