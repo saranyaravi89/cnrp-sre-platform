@@ -2,7 +2,7 @@
 set -e
 
 AWS_REGION="ap-southeast-1"
-AWS_ACCOUNT_ID="985411011517"
+AWS_ACCOUNT_ID="<aws-account-id>"
 ECR_REPO="cnrp-trading-api"
 IMAGE_TAG="latest"
 

@@ -1,7 +1,7 @@
 replicaCount: 3
 
 image:
-  repository: 985411011517.dkr.ecr.ap-southeast-1.amazonaws.com/cnrp-trading-api
+  repository: <aws-account-id>.dkr.ecr.ap-southeast-1.amazonaws.com/cnrp-trading-api
   tag: "v1.0.0"
 
 service:
