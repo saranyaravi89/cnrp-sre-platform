@@ -11,7 +11,8 @@ The platform provisions AWS infrastructure using Terraform, deploys a FastAPI-ba
 # High-Level Architecture
 
 ```
-<img width="804" height="936" alt="WhatsApp Image 2026-07-09 at 11 23 59 PM" src="https://github.com/user-attachments/assets/722d9f53-16f7-4f8a-867f-4abefb43e4b6" />
+<img width="802" height="927" alt="Architecture" src="https://github.com/user-attachments/assets/470110c6-0809-4404-acf5-fbb10b7ff22f" />
+
 
 ---
 
