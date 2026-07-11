@@ -18,38 +18,13 @@ The objective was to build an end-to-end platform similar to what an SRE or DevO
 
 # Architecture
 
-```
-Developer
-    │
-Git Push
-    │
-GitHub Actions
-    │
-Docker Build
-    │
-Amazon ECR
-    │
-Amazon EKS
-    │
-Trading API (FastAPI)
-    │
- ┌──────────────┬─────────────┬────────────┐
- │              │             │            │
-Prometheus    Grafana       Loki       Jaeger
- │
-Terraform
- │
-AWS
-├── VPC
-├── Public & Private Subnets
-├── Internet Gateway
-├── Route Tables
-├── Security Groups
-├── Amazon EKS
-├── Amazon ECR
-└── Amazon RDS (PostgreSQL)
-```
+<img width="1536" height="1024" alt="High Level Architecture" src="https://github.com/user-attachments/assets/c694e032-9231-4fe0-9307-05cbfd6701ac" />
 
+For detailed architecture, see:
+
+- docs/architecture.md
+- docs/aws_architecture.md
+- docs/system_design.md
 ---
 
 # Features
