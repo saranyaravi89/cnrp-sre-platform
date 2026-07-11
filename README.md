@@ -26,7 +26,42 @@ For detailed architecture, see:
 - docs/aws_architecture.md
 - docs/system_design.md
 ---
+# 📚 Documentation
 
+| Document | Description |
+|----------|-------------|
+| [Architecture](docs/architecture.md) | High-level architecture of the platform |
+| [AWS Architecture](docs/aws_architecture.md) | AWS infrastructure deployed with Terraform |
+| [System Design](docs/system_design.md) | End-to-end request flow and component interactions |
+| [Local Setup](docs/local-setup.md) | Run the platform locally using Docker Compose |
+| [Observability](docs/observability.md) | Prometheus, Grafana, Loki, Jaeger, and Blackbox configuration |
+| [Kubernetes Guide](docs/kubernetes.md) | Kubernetes resources and deployment guide |
+| [Runbooks](docs/runbooks.md) | Operational procedures for deployment and recovery |
+| [Troubleshooting](docs/troubleshooting.md) | Common issues and their resolutions |
+| [Interview Notes](docs/interview-notes.md) | Project summary and interview preparation notes |
+
+---
+# Technology Stack
+
+| Category | Technology |
+|----------|------------|
+| Language | Python |
+| Framework | FastAPI |
+| Container | Docker |
+| Orchestration | Kubernetes |
+| Package Manager | Helm |
+| Infrastructure | Terraform |
+| Cloud | AWS |
+| Container Registry | Amazon ECR |
+| Kubernetes | Amazon EKS |
+| Database | PostgreSQL (Amazon RDS) |
+| Monitoring | Prometheus |
+| Visualization | Grafana |
+| Logging | Loki |
+| Tracing | Jaeger |
+| CI/CD | GitHub Actions |
+
+---
 # Features
 
 ## Infrastructure
@@ -89,28 +124,6 @@ Current dashboards include:
 
 - API Overview
 - Application Performance
-
----
-
-# Technology Stack
-
-| Category | Technology |
-|----------|------------|
-| Language | Python |
-| Framework | FastAPI |
-| Container | Docker |
-| Orchestration | Kubernetes |
-| Package Manager | Helm |
-| Infrastructure | Terraform |
-| Cloud | AWS |
-| Container Registry | Amazon ECR |
-| Kubernetes | Amazon EKS |
-| Database | PostgreSQL (Amazon RDS) |
-| Monitoring | Prometheus |
-| Visualization | Grafana |
-| Logging | Loki |
-| Tracing | Jaeger |
-| CI/CD | GitHub Actions |
 
 ---
 
@@ -311,7 +324,7 @@ During this project the following production issues were identified and resolved
 
 ---
 
-# Future Improvements
+# Future Enhancements
 
 - Chaos Engineering experiments
 - ArgoCD GitOps deployment
