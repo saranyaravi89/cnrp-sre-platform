@@ -241,7 +241,8 @@ aws eks update-kubeconfig --region ap-southeast-1 --name cnrp-cluster
 Deploy application
 
 ```bash
-helm upgrade --install trading-api charts/trading-api
+helm upgrade --install trading-api charts/trading-api \
+  -f charts/trading-api/values-prod.yaml
 ```
 
 Destroy infrastructure
