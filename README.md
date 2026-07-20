@@ -26,6 +26,12 @@ For detailed architecture, see:
 - docs/aws_architecture.md
 - docs/system_design.md
 ---
+# Deployment Options
+1.Local application – run directly with Uvicorn.
+2.Local containerized – docker compose up.
+3.Production – Docker image built, pushed by CI/CD, then deployed to Kubernetes with Helm.
+
+---
 # 📚 Documentation
 
 | Document | Description |
