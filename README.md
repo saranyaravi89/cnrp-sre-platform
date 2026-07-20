@@ -278,7 +278,7 @@ helm lint charts/trading-api
 
 Before destroying the AWS infrastructure, remove Kubernetes workloads that provision AWS resources such as Load Balancers.
 
-### Step 1: Remove the Helm release
+Step 1: Remove the Helm release
 
 ```bash
 helm uninstall trading-api
@@ -290,7 +290,7 @@ Alternatively, if deployed using manifests:
 kubectl delete -f k8s/
 ```
 
-### Step 2: Verify Load Balancer deletion
+Step 2: Verify Load Balancer deletion
 
 Wait until the Kubernetes Service is removed and the AWS Load Balancer has been deleted.
 
@@ -300,7 +300,7 @@ kubectl get svc
 
 The Service should no longer have an `EXTERNAL-IP`.
 
-### Step 3: Destroy AWS infrastructure
+Step 3: Destroy AWS infrastructure
 
 ```bash
 cd terraform
