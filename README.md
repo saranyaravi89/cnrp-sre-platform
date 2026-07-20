@@ -274,6 +274,40 @@ helm lint charts/trading-api
 ```
 
 ---
+# Cleanup
+
+Before destroying the AWS infrastructure, remove Kubernetes workloads that provision AWS resources such as Load Balancers.
+
+### Step 1: Remove the Helm release
+
+```bash
+helm uninstall trading-api
+```
+
+Alternatively, if deployed using manifests:
+
+```bash
+kubectl delete -f k8s/
+```
+
+### Step 2: Verify Load Balancer deletion
+
+Wait until the Kubernetes Service is removed and the AWS Load Balancer has been deleted.
+
+```bash
+kubectl get svc
+```
+
+The Service should no longer have an `EXTERNAL-IP`.
+
+### Step 3: Destroy AWS infrastructure
+
+```bash
+cd terraform
+terraform destroy
+```
+
+> **Note:** Kubernetes `Service` objects of type `LoadBalancer` create AWS Load Balancers that depend on the VPC. Attempting to run `terraform destroy` before these resources are removed may result in dependency errors because AWS will not delete VPC networking components while the Load Balancer still exists.
 
 # Screenshots
 
